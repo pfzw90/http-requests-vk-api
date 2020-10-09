@@ -20,5 +20,5 @@ class YaUploader:
 
 
 if __name__ == '__main__':
-    uploader = YaUploader('AgAAAAAZDE4_AADLW8SH5kQzi0XkkSd4mUG10Eo')
+    uploader = YaUploader('XXX')
     result = uploader.upload('\files-to-upload\art5.jpg')

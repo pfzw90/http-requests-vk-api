@@ -2,42 +2,40 @@ import requests, pprint, urllib
 from urllib.parse import urljoin
 from pprint import pprint
 
+class VK_user:
 
-TOKEN = 'XXX'
-
-class VK_API:
     BASE_URL = "https://api.vk.com/method/"
-
-    class VK_user:
-        def __init__(self, id):
-            self.id = id
-        def __str__(self):
-            return urljoin('http://vk.com/id', str(self.id))
-    
-    def __init__(self, token, version):
+   
+    def __init__(self, id, token, version):
+        self.id = id
         self.token = token
         self.version = version
+        self.link = urljoin('http://vk.com/id', str(self.id))
 
-    def get_mutual_friends(self, user1, user2):
+    def __str__(self):
+        return self.link
+
+    def __repr__(self):
+        return self.link
+
+    def __and__(self, other):
         get_mutual_url = urljoin(self.BASE_URL, 'friends.getMutual')
         resp = requests.get(get_mutual_url, params = {
             'access_token' : self.token,
             'v' : self.version,
-            'source_uid' : user1.id,
-            'target_uid' : user2.id
+            'source_uid' : self.id,
+            'target_uid' : other.id
         })
 
-        mutual_friends = []
-        for mutual_friend in resp.json().get('response'):
-            user = self.VK_user(mutual_friend)
-            mutual_friends.append(user)
-            print(user)
-
-        return mutual_friends
-    
+        return [VK_user(mutual_friend, self.token, self.version) for mutual_friend in resp.json().get('response')]
 
 
+def init():
+   
+    TOKEN = '1449c891c4a867871fac4e292b468f511c55a698e03669c7a6d5e0a79b4b524f045ac6fd3f80d07f01b28'
+    VERSION = '5.124'
+    user1 = VK_user('1145567', TOKEN, VERSION)
+    user2 = VK_user('14102295', TOKEN, VERSION)
+    return print(user1 & user2)
 
-
-my_api = VK_API(TOKEN, '5.124')
-my_api.get_mutual_friends(user1 = VK_API.VK_user('1145567'), user2 = VK_API.VK_user('14102295'))
+init()

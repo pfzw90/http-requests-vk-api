@@ -32,7 +32,7 @@ class VK_user:
 
 def init():
    
-    TOKEN = '1449c891c4a867871fac4e292b468f511c55a698e03669c7a6d5e0a79b4b524f045ac6fd3f80d07f01b28'
+    TOKEN = 'XXX'
     VERSION = '5.124'
     user1 = VK_user('1145567', TOKEN, VERSION)
     user2 = VK_user('14102295', TOKEN, VERSION)
